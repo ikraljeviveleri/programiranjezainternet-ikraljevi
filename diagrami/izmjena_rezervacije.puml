@@ -1,0 +1,20 @@
+@startuml Brisanje postojeće rezervacije
+activate upravljaj_rezervacijama.php
+korisnik -> upravljaj_rezervacijama.php : unos podataka o rezervaciji
+upravljaj_rezervacijama -> GET_rezervacija.php : provjera da li rezervacija postoji
+deactivate upravljaj_rezervacijama.php
+activate GET_rezervacija.php
+GET_rezervacija.php -> upravljaj_rezervacijama.php : potvrda da rezervacija postoji
+== izmjena rezervacije ==
+deactivate GET_rezervacija.php
+activate upravljaj_rezervacijama.php
+korisnik -> upravljaj_rezervacijama.php : izmjena rezervacije
+upravljaj_rezervacijama.php -> CHANGE_rezervacija.php : otvaranje prozora za izmjenu rezervacije
+deactivate upravljaj_rezervacijama.php
+activate CHANGE_rezervacija.php.php
+CHANGE_rezervacija.php -> CHANGE_rezervacija.php : korisnik izmjenjuje rezervaciju
+deactivate CHANGE_rezervacija.php.php
+CHANGE_rezervacija.php -> UPDATE_termin.php : izmjena rezervacije u bazi
+activate upravljaj_rezervacijama.php
+
+@enduml

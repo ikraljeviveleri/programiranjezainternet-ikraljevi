@@ -1,0 +1,39 @@
+@startuml
+' opis tablice filmovi u bazi
+entity filmovi {
+    * PK: ID_Filma
+    --
+    Ime_filma
+    Dob_ograniceno
+    Opis_filma
+}
+
+' opis tablice "termin" u bazi
+entity termin {
+    * PK:  ID_termina
+    --
+    * FK: ID_Filma
+    Termin dan
+}
+
+' opis tablice "rezervacija" u bazi 
+entity rezervacije {
+    * PK: ID_rezervacije
+    --
+    * FK: ID_Filma
+    * FK: ID_termina
+    --
+    korisnik
+    broj_mjesta
+}
+
+' rezervacija sadržava samo 1 termin, dok 1 termin moze rezervirati više korisnika
+rezervacije }|..|| termin
+' rezervacije mogu imat samo 1 film, dok 1 film moze imat n rezervacija
+rezervacije }|..|| filmovi
+' termin opisuje samo 1 film, dok film moze imat n termina
+termin }|..|| filmovi
+
+' parametar koji opisuje kakve linije postaviti, estetska promjena
+skinparam linetype ortho
+@enduml

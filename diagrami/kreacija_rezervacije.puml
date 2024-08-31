@@ -1,0 +1,38 @@
+@startuml Nova_rezervacija
+== učitavanje stranice ==
+activate kino_program.php
+kino_program.php -> GET_filmove.php : dobavi popis filmova iz baze podataka
+deactivate kino_program.php
+activate GET_filmove.php
+GET_filmove.php -> DB_connect.php : spoji se do baze podataka
+deactivate GET_filmove.php
+activate DB_connect.php
+DB_connect.php -> GET_filmove.php : autentifikacija do baze podataka
+deactivate DB_connect.php
+activate GET_filmove.php
+GET_filmove.php -> kino_program.php : pokreni zapovjed "SELECT * FROM Filmovi"
+deactivate GET_filmove.php
+activate kino_program.php
+kino_program.php -> kino_program.php : za svaki redak u tablici kreiraj film i tipku za rezervaciju
+== korisnik kreira rezervaciju ==
+korisnik -> kino_program.php : odabire film
+kino_program.php <-> GET_Datumi_za_Film.php : dobavi datum termina za film
+korisnik -> kino_program.php : kreiraj rezervaciju
+deactivate kino_program.php
+activate CREATE_rezervacija.php
+kino_program.php -> CREATE_rezervacija.php : stvori novu rezervaciju
+CREATE_rezervacija.php -> CREATE_rezervacija.php : upiši podatke u bazu
+CREATE_rezervacija.php -> kino_program.php : ID_rezervacije
+deactivate CREATE_rezervacija.php
+activate kino_program.php
+kino_program.php -> kino_program.php : prikaži broj rezervacije
+== kraj procesa ==
+
+
+'rezervacije.php -> rezervacije.php : Učitaj stranicu s formularom za kreiranje nove rezervacije
+'rezervacije.php -> GET_FilmDetalji.php : Povuci popis filmova za drop down meni
+'GET_FilmDetalji.php -> rezervacije.php : Prikaži drop down meni filmova
+'rezervacije.php -> dobaviDatume : AJAX funkcija za dohvaćanje termina ovisno o filmu
+'dobaviDatume -> rezervacije.php : AJAX funkcija vraća termine
+'rezervacije.php -> CREATE_rezervacija.php : kreiranje rezervacije koristeći MYSQL query
+@enduml
